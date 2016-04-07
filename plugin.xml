@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="com.megaphone.cordova.ChatPlugin" version="0.0.1" xmlns="http://www.phonegap.com/ns/plugins/1.0" >
+    <name>ChatPlugin</name>
+    <author>James Hunter</author>
+
+    <engines>
+      <engine name="cordova" version=">=3.0.0" />
+    </engines>
+
+    <js-module name="ChatPlugin" src="www/ChatPlugin.js">
+        <clobbers target="cordova.plugins.ChatPlugin" />
+    </js-module>
+
+    <platform name="ios">
+      <hook type="after_plugin_install" src="hooks/add_swift_support.js" />
+
+      <header-file src="src/ios/cordova-plugin-ChatPlugin-Bridging-Header.h" />
+      <source-file src="src/ios/ChatPlugin.swift" />
+
+      <config-file target="config.xml" parent="/*">
+        <feature name="ChatPlugin">
+          <param name="ios-package" value="ChatPlugin" />
+          <param name="onload" value="true" />
+        </feature>
+      </config-file>
+    </platform>
+</plugin>
