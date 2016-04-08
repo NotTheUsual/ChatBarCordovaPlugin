@@ -24,4 +24,15 @@
         </feature>
       </config-file>
     </platform>
+
+    <platform name="android">
+      <config-file target="config.xml" parent="/*">
+        <feature name="ChatPlugin">
+          <param name="android-package" value="com.megaphone.cordova.chat.ChatPlugin" />
+          <param name="onload" value="true" />
+        </feature>
+      </config-file>
+
+      <source-file src="src/android/ChatPlugin.java" target-dir="src/com/megaphone/cordova/chat"/>
+    </platform>
 </plugin>
