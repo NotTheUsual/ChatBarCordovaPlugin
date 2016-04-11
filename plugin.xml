@@ -16,6 +16,7 @@
 
       <header-file src="src/ios/cordova-plugin-ChatPlugin-Bridging-Header.h" />
       <source-file src="src/ios/ChatPlugin.swift" />
+      <source-file src="src/ios/RoundUpChatBar.swift" />
 
       <config-file target="config.xml" parent="/*">
         <feature name="ChatPlugin">
