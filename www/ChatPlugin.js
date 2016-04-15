@@ -12,13 +12,13 @@ exports.showBar = function(success, error, messageHandler, focusHandler) {
       default:
         success();
     }
-  }, error, 'ChatPlugin', 'showBar');
+  }, error, 'ChatPlugin', 'showBar', []);
 };
 
 exports.hideBar = function(success, error) {
-  exec(success, error, 'ChatPlugin', 'hideBar');
+  exec(success, error, 'ChatPlugin', 'hideBar', []);
 };
 
 exports.hideKeyboard = function(success, error) {
-  exec(success, error, 'ChatPlugin', 'hideKeyboard');
+  exec(success, error, 'ChatPlugin', 'hideKeyboard', []);
 };
