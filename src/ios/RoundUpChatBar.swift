@@ -8,11 +8,29 @@
 
 import Foundation
 
+private extension Selector {
+    static let sendButtonTapped = #selector(RoundUpChatBar.sendButtonTapped(_:))
+}
+
+private extension UIColor {
+    convenience init(grey: CGFloat) {
+        let value = grey / 255.0
+        self.init(white: value, alpha: 1.0)
+    }
+    
+    convenience init(red: Int, green: Int, blue: Int) {
+        let redValue: CGFloat = CGFloat(red) / 255.0
+        let greenValue: CGFloat = CGFloat(green) / 255.0
+        let blueValue: CGFloat = CGFloat(blue) / 255.0
+        self.init(red: redValue, green: greenValue, blue: blueValue, alpha: 1.0)
+    }
+}
+
 private struct Colours {
-    static let inputBorder = UIColor(red: 0.753, green: 0.753, blue: 0.752, alpha: 1.0)
-    static let wrapperBackground = UIColor(red: 0.949, green: 0.949, blue: 0.949, alpha: 1.0)
+    static let inputBorder = UIColor(grey: 192)
+    static let wrapperBackground = UIColor(grey: 242)
     static let inputBackground = UIColor.whiteColor()
-    static let buttonBackground = UIColor(red: 0.988, green: 0.337, blue: 0.639, alpha: 1.0)
+    static let buttonBackground = UIColor(red: 252, green: 86, blue: 163)
 }
 
 class RoundUpChatBar: UIView, UITextViewDelegate {
@@ -28,9 +46,9 @@ class RoundUpChatBar: UIView, UITextViewDelegate {
         let wrapperHeight: CGFloat = 43.5
         let frame = CGRect(x: 0.0, y: parentFrame.height - wrapperHeight, width: parentFrame.width, height: wrapperHeight)
         
-        let textViewWidth: CGFloat = parentFrame.width - 100.0
+        let textViewWidth: CGFloat = parentFrame.width - 95.0
         let textViewHeight: CGFloat = wrapperHeight - 10.0
-        self.textView = RoundUpChatBarInput(frame: CGRect(x: 5.0, y: 5.0, width: textViewWidth, height: textViewHeight))
+        self.textView = RoundUpChatBarInput(frame: CGRect(x: 10.0, y: 5.0, width: textViewWidth, height: textViewHeight))
         
         self.sendButton = RoundUpChatBar.sendButton(frame: CGRect(x: textViewWidth + 20.0, y: 6.0, width: 65.0, height: textViewHeight - 2.0))
         
@@ -38,7 +56,7 @@ class RoundUpChatBar: UIView, UITextViewDelegate {
         self.backgroundColor = Colours.wrapperBackground
         
         self.textView.delegate = self
-        self.sendButton.addTarget(self, action: #selector(self.sendButtonTapped(_:)), forControlEvents: .TouchUpInside)
+        self.sendButton.addTarget(self, action: .sendButtonTapped, forControlEvents: .TouchUpInside)
         
         self.addSubview(self.textView)
         self.addSubview(self.sendButton)
@@ -111,7 +129,6 @@ class RoundUpChatBar: UIView, UITextViewDelegate {
     // MARK: Actions
     
     func sendButtonTapped(sender: UIButton!) {
-        print("Sending: \(self.textView.text)")
         delegate?.chatBar(self, didSendMessage: self.textView.text)
         self.textView.text = ""
     }

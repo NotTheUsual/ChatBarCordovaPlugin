@@ -8,6 +8,11 @@
 
 import UIKit
 
+private extension Selector {
+    static let keyboardWillBeShown = #selector(ChatPlugin.keyboardWillBeShown(_:))
+    static let keyboardWillBeHidden = #selector(ChatPlugin.keyboardWillBeHidden(_:))
+}
+
 @objc(ChatPlugin) class ChatPlugin: CDVPlugin, RoundUpChatBarDelegate {
 
     var command = CDVInvokedUrlCommand()
@@ -16,21 +21,19 @@ import UIKit
     func showBar(command: CDVInvokedUrlCommand) {
         self.command = command
 
-        print("showing")
         if let parentView = self.webView.superview {
             self.chatBar = RoundUpChatBar(parentFrame: parentView.frame)
             self.chatBar!.delegate = self
             parentView.addSubview(self.chatBar!)
 
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.keyboardWasShown(_:)), name: UIKeyboardWillShowNotification, object: nil)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(self.keyboardWillBeHidden(_:)), name: UIKeyboardWillHideNotification, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: .keyboardWillBeShown, name: UIKeyboardWillShowNotification, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: .keyboardWillBeHidden, name: UIKeyboardWillHideNotification, object: nil)
         }
-
     }
     
     // MARK: Keyboard notifications
     
-    func keyboardWasShown(notification: NSNotification) {
+    func keyboardWillBeShown(notification: NSNotification) {
         guard let info = notification.userInfo,
             let keyboardEndFrame = info[UIKeyboardFrameEndUserInfoKey] else { return }
 
