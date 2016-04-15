@@ -30,7 +30,6 @@ public class ChatPlugin extends CordovaPlugin {
   private static final String ACTION_HIDE_KEYBOARD = "hideKeyboard";
 
   private FrameLayout _myLayout;
-  private EditText _myEditText;
 
   @Override
   public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -46,140 +45,6 @@ public class ChatPlugin extends CordovaPlugin {
     }
     return false;
   }
-
-  // public void showBar(final CallbackContext callbackContext) {
-  //   final EditText myEditText = new EditText(cordova.getActivity());
-  //   myEditText.setHint("Message");
-  //   myEditText.setEms(10);
-  //   myEditText.setInputType(myEditText.getInputType() | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-  //   myEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-  //     @Override
-  //     public void onFocusChange(View v, boolean hasFocus) {
-  //       if (hasFocus) {
-  //         sendResult(Response.FOCUS, callbackContext);
-  //       }
-  //     }
-  //   });
-
-  //   FrameLayout.LayoutParams editTextParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-  //   editTextParams.gravity = Gravity.BOTTOM | Gravity.START;
-
-  //   Button myButton = new Button(cordova.getActivity());
-  //   myButton.setText("SEND");
-  //   // myButton.setBackgroundColor(Color.parseColor("#e040fb"));
-  //   GradientDrawable background = new GradientDrawable();
-  //   background.setColor(Color.parseColor("#e040fb"));
-  //   background.setCornerRadius(8);
-  //   myButton.setBackground(background);
-  //   myButton.setTextColor(Color.WHITE);
-  //   myButton.setPadding(32, 16, 32, 16);
-  //   myButton.setOnClickListener(new View.OnClickListener() {
-  //     @Override
-  //     public void onClick(View v) {
-  //       String text = myEditText.getText().toString();
-  //       sendResult(Response.MESSAGE, text, callbackContext);
-  //       myEditText.setText("");
-  //     }
-  //   });
-
-  //   FrameLayout.LayoutParams buttonParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-  //   buttonParams.gravity = Gravity.BOTTOM | Gravity.END;
-
-  //   final FrameLayout myLayout = new FrameLayout(cordova.getActivity());
-  //   myLayout.setBackgroundColor(Color.WHITE);
-  //   myLayout.setPadding(16, 16, 16, 16);
-  //   final FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-  //   layoutParams.gravity = Gravity.BOTTOM | Gravity.START;
-
-  //   myLayout.addView(myEditText, editTextParams);
-  //   myLayout.addView(myButton, buttonParams);
-
-  //   this._myLayout = myLayout;
-
-  //   cordova.getActivity().runOnUiThread(new Runnable() {
-  //     public void run() {
-  //       cordova.getActivity().addContentView(myLayout, layoutParams);
-  //       sendResult(Response.NORMAL, callbackContext);
-  //     }
-  //   });
-  // }
-
-
-
-
-
-
-  // public void showBar(final CallbackContext callbackContext) {
-  //   final EditText myEditText = new EditText(cordova.getActivity());
-  //   myEditText.setHint("Message");
-  //   myEditText.setEms(10);
-  //   myEditText.setInputType(myEditText.getInputType() | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-
-  //   GradientDrawable editTextBackground = new GradientDrawable();
-  //   editTextBackground.setColor(Color.WHITE);
-  //   editTextBackground.setCornerRadius(8);
-  //   editTextBackground.setStroke(2, Color.parseColor("#c0c0c0"));
-  //   myEditText.setBackground(editTextBackground);
-
-  //   myEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-  //     @Override
-  //     public void onFocusChange(View v, boolean hasFocus) {
-  //       if (hasFocus) {
-  //         sendResult(Response.FOCUS, callbackContext);
-  //       }
-  //     }
-  //   });
-
-  //   RelativeLayout.LayoutParams editTextParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-  //   editTextParams.addRule(RelativeLayout.ALIGN_PARENT_START);
-  //   editTextParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-
-  //   Button myButton = new Button(cordova.getActivity());
-  //   myButton.setText("SEND");
-  //   // myButton.setBackgroundColor(Color.parseColor("#e040fb"));
-  //   GradientDrawable buttonBackground = new GradientDrawable();
-  //   buttonBackground.setColor(Color.parseColor("#e040fb"));
-  //   buttonBackground.setCornerRadius(8);
-  //   myButton.setBackground(buttonBackground);
-  //   myButton.setTextColor(Color.WHITE);
-  //   myButton.setPadding(32, 16, 32, 16);
-  //   myButton.setId(1000);
-  //   myButton.setOnClickListener(new View.OnClickListener() {
-  //     @Override
-  //     public void onClick(View v) {
-  //       String text = myEditText.getText().toString();
-  //       sendResult(Response.MESSAGE, text, callbackContext);
-  //       myEditText.setText("");
-  //     }
-  //   });
-
-  //   RelativeLayout.LayoutParams buttonParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-  //   buttonParams.addRule(RelativeLayout.ALIGN_PARENT_END);
-  //   buttonParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-
-  //   editTextParams.addRule(RelativeLayout.LEFT_OF, myButton.getId());
-
-  //   final RelativeLayout myLayout = new RelativeLayout(cordova.getActivity());
-  //   myLayout.setBackgroundColor(Color.parseColor("#f2f2f2"));
-  //   myLayout.setPadding(16, 16, 16, 16);
-  //   final RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-  //   // layoutParams.gravity = Gravity.BOTTOM | Gravity.START;
-  //   layoutParams.addRule(RelativeLayout.ALIGN_PARENT_START);
-  //   layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-
-  //   myLayout.addView(myButton, buttonParams);
-  //   myLayout.addView(myEditText, editTextParams);
-
-  //   this._myLayout = myLayout;
-
-  //   cordova.getActivity().runOnUiThread(new Runnable() {
-  //     public void run() {
-  //       cordova.getActivity().addContentView(myLayout, layoutParams);
-  //       sendResult(Response.NORMAL, callbackContext);
-  //     }
-  //   });
-  // }
-
 
   public void showBar(final CallbackContext callbackContext) {
     final EditText myEditText = new EditText(cordova.getActivity());
@@ -202,8 +67,6 @@ public class ChatPlugin extends CordovaPlugin {
         }
       }
     });
-
-    this._myEditText = myEditText;
 
     LinearLayout.LayoutParams editTextParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
     editTextParams.gravity = Gravity.BOTTOM | Gravity.START;
@@ -229,7 +92,6 @@ public class ChatPlugin extends CordovaPlugin {
 
     LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     buttonParams.gravity = Gravity.BOTTOM;
-    // buttonParams.setMarginStart(20);
     buttonParams.setMargins(20, 0, 0, 3);
     buttonParams.setLayoutDirection(LinearLayout.HORIZONTAL);
 
@@ -273,7 +135,6 @@ public class ChatPlugin extends CordovaPlugin {
   }
 
   public void hideKeyboard(final CallbackContext callbackContext) {
-    final EditText myEditText = this._myEditText;
     //https://github.com/driftyco/ionic-plugin-keyboard/blob/master/src/android/IonicKeyboard.java
     cordova.getThreadPool().execute(new Runnable() {
       public void run() {
@@ -284,7 +145,6 @@ public class ChatPlugin extends CordovaPlugin {
           callbackContext.error("No current focus");
         } else {
           inputManager.hideSoftInputFromWindow(focussedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-          // myEditText.clearFocus();
           callbackContext.success();
         }
       }
