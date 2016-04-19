@@ -125,6 +125,7 @@ public class ChatPlugin extends CordovaPlugin {
 
   public void hideBar(final CallbackContext callbackContext) {
     final FrameLayout myLayout = _myLayout;
+    if (myLayout == null) return;
     cordova.getActivity().runOnUiThread(new Runnable() {
       public void run() {
         ViewGroup parent = (ViewGroup)myLayout.getParent();
