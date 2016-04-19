@@ -186,6 +186,7 @@ class RoundUpChatBar: UIView, UITextViewDelegate {
     func sendButtonTapped(sender: UIButton!) {
         delegate?.chatBar(self, didSendMessage: self.textView.text)
         self.textView.text = ""
+        self.textViewDidChange(textView)
     }
     
     func messageBarTapped(sender: UIButton!) {
