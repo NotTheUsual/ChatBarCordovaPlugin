@@ -10,6 +10,7 @@ import Foundation
 
 private extension Selector {
     static let sendButtonTapped = #selector(RoundUpChatBar.sendButtonTapped(_:))
+    static let messageBarTapped = #selector(RoundUpChatBar.messageBarTapped(_:))
 }
 
 private extension UIColor {
@@ -37,29 +38,41 @@ class RoundUpChatBar: UIView, UITextViewDelegate {
     
     var delegate: RoundUpChatBarDelegate?
     
+    let backgroundView: UIView
     let textView: RoundUpChatBarInput
     let sendButton: UIButton
+    let messageBar: UIButton
     
     // MARK: Initialization
     
     init(parentFrame: CGRect) {
-        let wrapperHeight: CGFloat = 43.5
-        let frame = CGRect(x: 0.0, y: parentFrame.height - wrapperHeight, width: parentFrame.width, height: wrapperHeight)
+        let barHeight: CGFloat = 43.5
+        let wrapperHeight: CGFloat = barHeight + 30.0
+        
+        let wrapperFrame = CGRect(x: 0.0, y: parentFrame.height - wrapperHeight, width: parentFrame.width, height: wrapperHeight)
+
+        self.backgroundView = UIView(frame: CGRect(x: 0, y: 30.0, width: wrapperFrame.width, height: barHeight))
+        self.backgroundView.backgroundColor = Colours.wrapperBackground
         
         let textViewWidth: CGFloat = parentFrame.width - 95.0
-        let textViewHeight: CGFloat = wrapperHeight - 10.0
-        self.textView = RoundUpChatBarInput(frame: CGRect(x: 10.0, y: 5.0, width: textViewWidth, height: textViewHeight))
+        let textViewHeight: CGFloat = barHeight - 10.0
+        self.textView = RoundUpChatBarInput(frame: CGRect(x: 10.0, y: 30.0 + 5.0, width: textViewWidth, height: textViewHeight))
         
-        self.sendButton = RoundUpChatBar.sendButton(frame: CGRect(x: textViewWidth + 20.0, y: 6.0, width: 65.0, height: textViewHeight - 2.0))
+        self.sendButton = RoundUpChatBar.sendButton(frame: CGRect(x: textViewWidth + 20.0, y: 30.0 + 6.0, width: 65.0, height: textViewHeight - 2.0))
         
-        super.init(frame: frame)
-        self.backgroundColor = Colours.wrapperBackground
+        self.messageBar = RoundUpChatBar.newMessageBanner(frame: CGRect(x: (wrapperFrame.width / 2) - 80, y: 30, width: 160, height: 40))
+        
+        super.init(frame: wrapperFrame)
         
         self.textView.delegate = self
         self.sendButton.addTarget(self, action: .sendButtonTapped, forControlEvents: .TouchUpInside)
+        self.messageBar.addTarget(self, action: .messageBarTapped, forControlEvents: .TouchUpInside)
         
+        self.addSubview(self.backgroundView)
         self.addSubview(self.textView)
         self.addSubview(self.sendButton)
+        self.addSubview(self.messageBar)
+        self.sendSubviewToBack(self.messageBar)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -74,6 +87,42 @@ class RoundUpChatBar: UIView, UITextViewDelegate {
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         button.titleLabel?.font = UIFont.systemFontOfSize(15)
         return button
+    }
+    
+    private static func newMessageBanner(frame frame: CGRect) -> UIButton {
+        let messageBar = UIButton(frame: frame)
+        messageBar.setTitle("1 New Message", forState: .Normal)
+        messageBar.setTitleColor(.whiteColor(), forState: .Normal)
+        messageBar.titleLabel?.font = UIFont.systemFontOfSize(13)
+        messageBar.backgroundColor = Colours.buttonBackground
+        messageBar.contentVerticalAlignment = .Top
+        messageBar.titleEdgeInsets = UIEdgeInsets(top: 7.0, left: 0.0, bottom: 0.0, right: 0.0)
+        
+        let maskPath = UIBezierPath(roundedRect: messageBar.bounds, byRoundingCorners: [.TopLeft, .TopRight], cornerRadii: CGSize(width: 5, height: 5))
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = messageBar.bounds
+        maskLayer.path = maskPath.CGPath
+        messageBar.layer.mask = maskLayer
+        
+        return messageBar
+    }
+    
+    override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
+        for subview in subviews {
+            if !subview.hidden && subview.alpha > 0 && subview.userInteractionEnabled && subview.pointInside(convertPoint(point, toView: subview), withEvent: event) {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func showMessageBar(count: Int) {
+        let message = count == 1 ? "1 New Message" : "\(count) New Messages"
+        messageBar.setTitle(message, forState: .Normal)
+        
+        UIView.animateWithDuration(0.25, delay: 0.0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: [], animations: { [unowned self] in
+            self.messageBar.transform = CGAffineTransformMakeTranslation(0, -30)
+            }, completion: nil)
     }
     
     // MARK: Text view functions
@@ -104,8 +153,9 @@ class RoundUpChatBar: UIView, UITextViewDelegate {
         newFrame.size = CGSize(width: (max(newSize.width, textView.frame.width)), height: newSize.height)
         textView.frame = newFrame
         
-        let newWrapperHeight = newFrame.height + 10.0
+        let newWrapperHeight = newFrame.height + 10.0 + 30.0
         adjustWrapperHeightFor(newWrapperHeight)
+        adjustBackgroundHeightFor(newWrapperHeight)
         adjustButtonPositionFor(newWrapperHeight)
     }
     
@@ -121,6 +171,11 @@ class RoundUpChatBar: UIView, UITextViewDelegate {
         self.frame.size.height = newWrapperHeight
     }
     
+    private func adjustBackgroundHeightFor(newWrapperHeight: CGFloat) {
+        let newBGHeight = newWrapperHeight - 30.0
+        self.backgroundView.frame.size.height = newBGHeight
+    }
+    
     private func adjustButtonPositionFor(newWrapperHeight: CGFloat) {
         let newButtonOrigin = newWrapperHeight - 6.0 - self.sendButton.frame.height
         self.sendButton.frame.origin.y = newButtonOrigin
@@ -132,11 +187,19 @@ class RoundUpChatBar: UIView, UITextViewDelegate {
         delegate?.chatBar(self, didSendMessage: self.textView.text)
         self.textView.text = ""
     }
+    
+    func messageBarTapped(sender: UIButton!) {
+        UIView.animateWithDuration(0.1) {
+            self.messageBar.transform = CGAffineTransformIdentity
+        }
+        delegate?.chatBarDidAcknowledgeNewMessage(self)
+    }
 }
 
 protocol RoundUpChatBarDelegate {
     func chatBarDidBeginEditing(chatBar: RoundUpChatBar)
     func chatBar(charBar: RoundUpChatBar, didSendMessage message: String)
+    func chatBarDidAcknowledgeNewMessage(chatBar: RoundUpChatBar)
 }
 
 class RoundUpChatBarInput: UITextView {

@@ -17,6 +17,8 @@ private extension Selector {
 
     var command = CDVInvokedUrlCommand()
     var chatBar: RoundUpChatBar?
+    
+    // MARK: Public plugin methods
 
     func showBar(command: CDVInvokedUrlCommand) {
         self.command = command
@@ -29,6 +31,24 @@ private extension Selector {
             NSNotificationCenter.defaultCenter().addObserver(self, selector: .keyboardWillBeShown, name: UIKeyboardWillShowNotification, object: nil)
             NSNotificationCenter.defaultCenter().addObserver(self, selector: .keyboardWillBeHidden, name: UIKeyboardWillHideNotification, object: nil)
         }
+    }
+    
+    func hideBar(command: CDVInvokedUrlCommand) {
+        self.command = command
+        
+        guard let chatBar = self.chatBar else { return }
+        chatBar.deselectInput()
+        chatBar.removeFromSuperview()
+    }
+    
+    func hideKeyboard(command: CDVInvokedUrlCommand) {
+        chatBar?.deselectInput()
+    }
+    
+    func showNewMessageBar(command: CDVInvokedUrlCommand) {
+        guard let chatBar = self.chatBar, messageCount = command.argumentAtIndex(0) as? Int
+            else { return }
+        chatBar.showMessageBar(messageCount)
     }
     
     // MARK: Keyboard notifications
@@ -50,25 +70,21 @@ private extension Selector {
         }
     }
     
+    // MARK: RoundUpChatBar delegate
+    
     func chatBar(charBar: RoundUpChatBar, didSendMessage message: String) {
         sendPluginResponse(.Message(message))
-    }
-
-    func hideBar(command: CDVInvokedUrlCommand) {
-        self.command = command
-
-        guard let chatBar = self.chatBar else { return }
-        chatBar.deselectInput()
-        chatBar.removeFromSuperview()
-    }
-    
-    func hideKeyboard(command: CDVInvokedUrlCommand) {
-        chatBar?.deselectInput()
     }
     
     func chatBarDidBeginEditing(chatBar: RoundUpChatBar) {
         sendPluginResponse(.Focus)
     }
+    
+    func chatBarDidAcknowledgeNewMessage(chatBar: RoundUpChatBar) {
+        sendPluginResponse(.MessageBarClicked)
+    }
+    
+    // MARK: Response sending
     
     private func sendPluginResponse(response: Response) {
         let responseDictionary = responseAsDictionary(response)
@@ -92,6 +108,7 @@ private extension Selector {
         case Normal
         case Focus
         case Message(String)
+        case MessageBarClicked
         
         func name() -> String {
             return String(self)
