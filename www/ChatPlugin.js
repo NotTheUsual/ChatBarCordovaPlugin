@@ -1,6 +1,6 @@
 var exec = require('cordova/exec');
 
-exports.showBar = function(success, error, messageHandler, focusHandler) {
+exports.showBar = function(success, error, messageHandler, focusHandler, messageBarHandler) {
   exec(function(response) {
     switch (response.action) {
       case 'message':
@@ -8,6 +8,9 @@ exports.showBar = function(success, error, messageHandler, focusHandler) {
         break;
       case 'focus':
         focusHandler();
+        break;
+      case 'messagebarclicked':
+        messageBarHandler();
         break;
       default:
         success();
@@ -21,4 +24,12 @@ exports.hideBar = function(success, error) {
 
 exports.hideKeyboard = function(success, error) {
   exec(success, error, 'ChatPlugin', 'hideKeyboard', []);
+};
+
+exports.showNewMessageBar = function(success, error, messageCount) {
+  exec(success, error, 'ChatPlugin', 'showNewMessageBar', [messageCount]);
+};
+
+exports.hideNewMessageBar = function(success, error) {
+  exec(success, error, 'ChatPlugin', 'hideNewMessageBar', []);
 };

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<plugin id="com.megaphone.cordova.ChatPlugin" version="0.0.1" xmlns="http://www.phonegap.com/ns/plugins/1.0" >
-    <name>ChatPlugin</name>
+<plugin id="com.megaphone.cordova.ChatBarPlugin" version="0.0.5" xmlns="http://www.phonegap.com/ns/plugins/1.0" >
+    <name>ChatBarPlugin</name>
     <author>James Hunter</author>
 
     <engines>
@@ -8,7 +8,7 @@
     </engines>
 
     <js-module name="ChatPlugin" src="www/ChatPlugin.js">
-        <clobbers target="cordova.plugins.ChatPlugin" />
+        <clobbers target="cordova.plugins.RoundUpChatBar" />
     </js-module>
 
     <platform name="ios">
