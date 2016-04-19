@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +23,15 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 public class ChatPlugin extends CordovaPlugin {
 
-  private static final String ACTION_SHOW_BAR      = "showBar";
-  private static final String ACTION_HIDE_BAR      = "hideBar";
-  private static final String ACTION_HIDE_KEYBOARD = "hideKeyboard";
+  private static final String ACTION_SHOW_BAR         = "showBar";
+  private static final String ACTION_HIDE_BAR         = "hideBar";
+  private static final String ACTION_HIDE_KEYBOARD    = "hideKeyboard";
+  private static final String ACTION_SHOW_MESSAGE_BAR = "showNewMessageBar";
+  private static final String ACTION_HIDE_MESSAGE_BAR = "hideNewMessageBar";
 
   private FrameLayout _myLayout;
 
@@ -41,6 +45,12 @@ public class ChatPlugin extends CordovaPlugin {
       return true;
     } else if (action.equals(ACTION_HIDE_KEYBOARD)) {
       this.hideKeyboard(callbackContext);
+      return true;
+    } else if (action.equals(ACTION_SHOW_MESSAGE_BAR)) {
+      this.showNewMessageBar(args, callbackContext);
+      return true;
+    } else if (action.equals(ACTION_HIDE_MESSAGE_BAR)) {
+      this.hideNewMessageBar(callbackContext);
       return true;
     }
     return false;
@@ -150,6 +160,26 @@ public class ChatPlugin extends CordovaPlugin {
         }
       }
     });
+  }
+
+  public void showNewMessageBar(JSONArray args, final CallbackContext callbackContext) {
+    // try {
+    //   int messageCount = args.getInt(0);
+    //   String messageBody = (messageCount == 1) ? " New Message" : " New Messages";
+    //   String message = String.format("%d%s", messageCount, messageBody);
+    //   Toast toast = Toast.makeText(cordova.getActivity(), message, Toast.LENGTH_SHORT);
+    //   toast.show();
+    // } catch (JSONException e) {
+    //   e.printStackTrace();
+    // }
+
+    Toast toast = Toast.makeText(cordova.getActivity(), "New Message!", Toast.LENGTH_SHORT);
+    toast.show();
+  }
+
+  public void hideNewMessageBar(final CallbackContext callbackContext) {
+    // Log.d("ChatPlugin", "hide new message bar");
+    return;
   }
 
   private void sendResult(Response action, CallbackContext callbackContext) {
