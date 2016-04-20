@@ -114,7 +114,7 @@ public class ChatPlugin extends CordovaPlugin {
 
     final LinearLayout myLayout = new LinearLayout(cordova.getActivity());
     myLayout.setBackgroundColor(Color.parseColor("#f2f2f2"));
-    myLayout.setPadding(dp(8.0f), dp(8.0f), dp(8.0f), dp(8.0f));
+    myLayout.setPadding(dp(10.0f), dp(5.0f), dp(10.0f), dp(5.0f));
     myLayout.setOrientation(LinearLayout.HORIZONTAL);
     myLayout.setGravity(Gravity.BOTTOM);
     final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
