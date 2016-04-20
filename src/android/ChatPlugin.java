@@ -34,6 +34,7 @@ public class ChatPlugin extends CordovaPlugin {
   private static final String ACTION_HIDE_MESSAGE_BAR = "hideNewMessageBar";
 
   private FrameLayout _myLayout;
+  private float scale;
 
   @Override
   public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
@@ -56,17 +57,23 @@ public class ChatPlugin extends CordovaPlugin {
     return false;
   }
 
+  private int dp(float value) {
+    return (int) (value * scale + 0.5f);
+  }
+
   public void showBar(final CallbackContext callbackContext) {
+    scale = cordova.getActivity().getResources().getDisplayMetrics().density;
+
     final EditText myEditText = new EditText(cordova.getActivity());
     myEditText.setHint("Message");
-    myEditText.setEms(10);
-    myEditText.setPadding(16, 18, 16, 18);
+    // myEditText.setEms(10);
+    myEditText.setPadding(dp(8.0f), dp(9.0f), dp(8.0f), dp(9.0f));
     myEditText.setInputType(myEditText.getInputType() | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
     GradientDrawable editTextBackground = new GradientDrawable();
     editTextBackground.setColor(Color.WHITE);
-    editTextBackground.setCornerRadius(8);
-    editTextBackground.setStroke(2, Color.parseColor("#c0c0c0"));
+    editTextBackground.setCornerRadius(dp(4.0f));
+    editTextBackground.setStroke(dp(1.0f), Color.parseColor("#c0c0c0"));
     myEditText.setBackground(editTextBackground);
 
     myEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -86,10 +93,10 @@ public class ChatPlugin extends CordovaPlugin {
     myButton.setText("SEND");
     GradientDrawable buttonBackground = new GradientDrawable();
     buttonBackground.setColor(Color.parseColor("#e040fb"));
-    buttonBackground.setCornerRadius(8);
+    buttonBackground.setCornerRadius(dp(4.0f));
     myButton.setBackground(buttonBackground);
     myButton.setTextColor(Color.WHITE);
-    myButton.setPadding(32, 16, 32, 16);
+    myButton.setPadding(dp(16.0f), dp(8.0f), dp(16.0f), dp(8.0f));
     myButton.setId(1000);
     myButton.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -102,12 +109,12 @@ public class ChatPlugin extends CordovaPlugin {
 
     LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     buttonParams.gravity = Gravity.BOTTOM;
-    buttonParams.setMargins(20, 0, 0, 3);
+    buttonParams.setMargins(dp(10.0f), 0, 0, dp(1.5f));
     buttonParams.setLayoutDirection(LinearLayout.HORIZONTAL);
 
     final LinearLayout myLayout = new LinearLayout(cordova.getActivity());
     myLayout.setBackgroundColor(Color.parseColor("#f2f2f2"));
-    myLayout.setPadding(16, 16, 16, 16);
+    myLayout.setPadding(dp(8.0f), dp(8.0f), dp(8.0f), dp(8.0f));
     myLayout.setOrientation(LinearLayout.HORIZONTAL);
     myLayout.setGravity(Gravity.BOTTOM);
     final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -163,16 +170,6 @@ public class ChatPlugin extends CordovaPlugin {
   }
 
   public void showNewMessageBar(JSONArray args, final CallbackContext callbackContext) {
-    // try {
-    //   int messageCount = args.getInt(0);
-    //   String messageBody = (messageCount == 1) ? " New Message" : " New Messages";
-    //   String message = String.format("%d%s", messageCount, messageBody);
-    //   Toast toast = Toast.makeText(cordova.getActivity(), message, Toast.LENGTH_SHORT);
-    //   toast.show();
-    // } catch (JSONException e) {
-    //   e.printStackTrace();
-    // }
-
     Toast toast = Toast.makeText(cordova.getActivity(), "New Message!", Toast.LENGTH_SHORT);
     toast.show();
   }
