@@ -59,6 +59,7 @@ class RoundUpChatBar: UIView, UITextViewDelegate {
         self.textView = RoundUpChatBarInput(frame: CGRect(x: 10.0, y: 30.0 + 5.0, width: textViewWidth, height: textViewHeight))
         
         self.sendButton = RoundUpChatBar.sendButton(frame: CGRect(x: textViewWidth + 20.0, y: 30.0 + 6.0, width: 65.0, height: textViewHeight - 2.0))
+        self.sendButton.enabled = false
         
         self.messageBar = RoundUpChatBar.newMessageBanner(frame: CGRect(x: (wrapperFrame.width / 2) - 80, y: 30, width: 160, height: 40))
         
@@ -85,6 +86,7 @@ class RoundUpChatBar: UIView, UITextViewDelegate {
         button.layer.cornerRadius = 4.0
         button.setTitle("Send", forState: .Normal)
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        button.setTitleColor(UIColor(white: 255.0, alpha: 0.5), forState: .Disabled)
         button.titleLabel?.font = UIFont.systemFontOfSize(15)
         return button
     }
@@ -148,6 +150,8 @@ class RoundUpChatBar: UIView, UITextViewDelegate {
     }
     
     func textViewDidChange(textView: UITextView) {
+        setSendButtonState(forTextView: textView)
+        
         let newSize = newTextViewSize(textView)
         var newFrame = textView.frame
         newFrame.size = CGSize(width: (max(newSize.width, textView.frame.width)), height: newSize.height)
@@ -157,6 +161,15 @@ class RoundUpChatBar: UIView, UITextViewDelegate {
         adjustWrapperHeightFor(newWrapperHeight)
         adjustBackgroundHeightFor(newWrapperHeight)
         adjustButtonPositionFor(newWrapperHeight)
+    }
+    
+    private func setSendButtonState(forTextView textView: UITextView) {
+//        if textView.text == "" {
+//            sendButton.enabled = false
+//        } else if !sendButton.enabled {
+//            sendButton.enabled = true
+//        }
+        sendButton.enabled = textView.text != ""
     }
     
     private func newTextViewSize(textView: UITextView) -> CGSize {

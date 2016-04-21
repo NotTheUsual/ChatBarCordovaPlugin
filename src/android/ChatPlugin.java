@@ -66,7 +66,6 @@ public class ChatPlugin extends CordovaPlugin {
 
     final EditText myEditText = new EditText(cordova.getActivity());
     myEditText.setHint("Message");
-    // myEditText.setEms(10);
     myEditText.setTextColor(Color.DKGRAY);
     myEditText.setPadding(dp(8.0f), dp(9.0f), dp(8.0f), dp(9.0f));
     myEditText.setInputType(myEditText.getInputType() | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
@@ -103,6 +102,7 @@ public class ChatPlugin extends CordovaPlugin {
       @Override
       public void onClick(View v) {
         String text = myEditText.getText().toString();
+        if (text.equals("")) return;
         sendResult(Response.MESSAGE, text, callbackContext);
         myEditText.setText("");
       }
