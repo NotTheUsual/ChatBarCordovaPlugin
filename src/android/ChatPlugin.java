@@ -148,6 +148,13 @@ public class ChatPlugin extends CordovaPlugin {
       public void run() {
         ViewGroup parent = (ViewGroup)myLayout.getParent();
         parent.removeView(myLayout);
+        // callbackContext.success("Hidden");
+
+        InputMethodManager inputManager = (InputMethodManager)cordova.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        View focussedView = cordova.getActivity().getCurrentFocus();
+        if (focussedView != null) {
+          inputManager.hideSoftInputFromWindow(focussedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
         callbackContext.success("Hidden");
       }
     });
