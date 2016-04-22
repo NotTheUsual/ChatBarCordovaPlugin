@@ -98,6 +98,8 @@ public class ChatPlugin extends CordovaPlugin {
     myButton.setTextColor(Color.WHITE);
     myButton.setMinHeight(dp(1.0f));
     myButton.setMinWidth(dp(1.0f));
+    myButton.setMinimumHeight(dp(1.0f));
+    myButton.setMinimumWidth(dp(1.0f));
     myButton.setPadding(dp(16.0f), dp(8.0f), dp(16.0f), dp(8.0f));
     myButton.setId(1000);
     myButton.setOnClickListener(new View.OnClickListener() {
