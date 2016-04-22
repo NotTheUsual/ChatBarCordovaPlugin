@@ -67,7 +67,7 @@ public class ChatPlugin extends CordovaPlugin {
     final EditText myEditText = new EditText(cordova.getActivity());
     myEditText.setHint("Message");
     myEditText.setTextColor(Color.DKGRAY);
-    myEditText.setPadding(dp(8.0f), dp(9.0f), dp(8.0f), dp(9.0f));
+    myEditText.setPadding(dp(8.0f), dp(8.0f), dp(8.0f), dp(10.0f));
     myEditText.setInputType(myEditText.getInputType() | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
 
     GradientDrawable editTextBackground = new GradientDrawable();
@@ -92,11 +92,13 @@ public class ChatPlugin extends CordovaPlugin {
     Button myButton = new Button(cordova.getActivity());
     myButton.setText("SEND");
     GradientDrawable buttonBackground = new GradientDrawable();
-    buttonBackground.setColor(Color.parseColor("#e040fb"));
+    buttonBackground.setColor(Color.parseColor("#FC56A3"));
     buttonBackground.setCornerRadius(dp(4.0f));
     myButton.setBackground(buttonBackground);
     myButton.setTextColor(Color.WHITE);
-    myButton.setPadding(dp(16.0f), dp(7.0f), dp(16.0f), dp(9.0f));
+    myButton.setMinHeight(dp(1.0f));
+    myButton.setMinWidth(dp(1.0f));
+    myButton.setPadding(dp(16.0f), dp(8.0f), dp(16.0f), dp(8.0f));
     myButton.setId(1000);
     myButton.setOnClickListener(new View.OnClickListener() {
       @Override
