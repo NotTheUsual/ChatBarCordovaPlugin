@@ -87,7 +87,6 @@ public class ChatPlugin extends CordovaPlugin {
 
     LinearLayout.LayoutParams editTextParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1);
     editTextParams.gravity = Gravity.BOTTOM | Gravity.START;
-    editTextParams.setLayoutDirection(LinearLayout.HORIZONTAL);
 
     Button myButton = new Button(cordova.getActivity());
     myButton.setText("SEND");
@@ -115,7 +114,6 @@ public class ChatPlugin extends CordovaPlugin {
     LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     buttonParams.gravity = Gravity.BOTTOM;
     buttonParams.setMargins(dp(10.0f), 0, 0, dp(1.5f));
-    buttonParams.setLayoutDirection(LinearLayout.HORIZONTAL);
 
     final LinearLayout myLayout = new LinearLayout(cordova.getActivity());
     myLayout.setBackgroundColor(Color.parseColor("#f2f2f2"));
@@ -124,7 +122,6 @@ public class ChatPlugin extends CordovaPlugin {
     myLayout.setGravity(Gravity.BOTTOM);
     final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
     layoutParams.gravity = Gravity.BOTTOM | Gravity.START;
-    layoutParams.setLayoutDirection(LinearLayout.HORIZONTAL);
 
     myLayout.addView(myEditText, editTextParams);
     myLayout.addView(myButton, buttonParams);
